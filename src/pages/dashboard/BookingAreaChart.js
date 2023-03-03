@@ -10,7 +10,7 @@ import ReactApexChart from 'react-apexcharts';
 // chart options
 const areaChartOptions = {
     chart: {
-        height: 450,
+        height: 200,
         type: 'area',
         toolbar: {
             show: false
@@ -30,7 +30,7 @@ const areaChartOptions = {
 
 // ==============================|| INCOME AREA CHART ||============================== //
 
-const IncomeAreaChart = ({ slot }) => {
+const BookingAreaChart = ({ slot }) => {
     const theme = useTheme();
 
     const { primary, secondary } = theme.palette.text;
@@ -46,7 +46,7 @@ const IncomeAreaChart = ({ slot }) => {
                 categories:
                     slot === 'month'
                         ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 labels: {
                     style: {
                         colors: [
@@ -89,33 +89,25 @@ const IncomeAreaChart = ({ slot }) => {
 
     const [series, setSeries] = useState([
         {
-            name: 'Page Views',
+            name: 'Booking',
             data: [0, 86, 28, 115, 48, 210, 136]
-        },
-        {
-            name: 'Sessions',
-            data: [0, 43, 14, 56, 24, 105, 68]
         }
     ]);
 
     useEffect(() => {
         setSeries([
             {
-                name: 'Page Views',
-                data: slot === 'month' ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [31, 40, 28, 51, 42, 109, 100]
-            },
-            {
-                name: 'Sessions',
-                data: slot === 'month' ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41] : [11, 32, 45, 32, 34, 52, 41]
+                name: 'Booking',
+                data: slot === 'month' ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [0, 0, 0, 0, 8, 29, 25]
             }
         ]);
     }, [slot]);
 
-    return <ReactApexChart options={options} series={series} type="area" height={450} />;
+    return <ReactApexChart options={options} series={series} type="area" height={180} />;
 };
 
-IncomeAreaChart.propTypes = {
+BookingAreaChart.propTypes = {
     slot: PropTypes.string
 };
 
-export default IncomeAreaChart;
+export default BookingAreaChart;
