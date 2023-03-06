@@ -3,7 +3,6 @@ import { useState } from 'react';
 // material-ui
 import {
     Avatar,
-    AvatarGroup,
     Box,
     Button,
     Grid,
@@ -25,15 +24,8 @@ import MonthlyBarChart from './MonthlyBarChart';
 import ReportAreaChart from './ReportAreaChart';
 import SalesColumnChart from './SalesColumnChart';
 import MainCard from 'components/MainCard';
-import AnalyticEcommerce from 'components/cards/statistics/AnalyticEcommerce';
-
-// assets
-import { GiftOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import avatar1 from 'assets/images/users/avatar-1.png';
-import avatar2 from 'assets/images/users/avatar-2.png';
-import avatar3 from 'assets/images/users/avatar-3.png';
-import avatar4 from 'assets/images/users/avatar-4.png';
 import SalesAreaChart from './SalesAreaChart';
+import { Scheduler } from '@aldabil/react-scheduler';
 
 // avatar style
 const avatarSX = {
@@ -73,6 +65,13 @@ const status = [
 const DashboardDefault = () => {
     const [value, setValue] = useState('today');
     const [slot, setSlot] = useState('week');
+
+    const getCalendarEvent = (hours, minutes) => {
+        const tmpDate = new Date();
+        tmpDate.setHours(hours);
+        tmpDate.setMinutes(minutes);
+        return tmpDate;
+    };
 
     return (
         <Grid container rowSpacing={2} columnSpacing={2} columns={3}>
@@ -236,36 +235,39 @@ const DashboardDefault = () => {
                 </MainCard>
             </Grid>
             <Grid item xs={12} md={7} lg={1}>
-                <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item>
-                        <Typography variant="h5">Sales</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Stack direction="row" alignItems="center" spacing={0}>
-                            <Button
-                                size="small"
-                                onClick={() => setSlot('month')}
-                                color={slot === 'month' ? 'primary' : 'secondary'}
-                                variant={slot === 'month' ? 'outlined' : 'text'}
-                            >
-                                Month
-                            </Button>
-                            <Button
-                                size="small"
-                                onClick={() => setSlot('week')}
-                                color={slot === 'week' ? 'primary' : 'secondary'}
-                                variant={slot === 'week' ? 'outlined' : 'text'}
-                            >
-                                Week
-                            </Button>
-                        </Stack>
-                    </Grid>
-                </Grid>
-                <MainCard content={false} sx={{ mt: 1.5 }}>
-                    <Box sx={{ pt: 1, pr: 2 }}>
-                        <SalesAreaChart slot={slot} />
-                    </Box>
-                </MainCard>
+                <Scheduler
+                    view="day"
+                    disableViewNavigator={true}
+                    day={{
+                        startHour: 6,
+                        endHour: 19,
+                        step: 60,
+                        navigation: true
+                    }}
+                    events={[
+                        {
+                            event_id: 1,
+                            title: 'TRX',
+                            color: 'green',
+                            start: getCalendarEvent(6, 0),
+                            end: getCalendarEvent(8, 0)
+                        },
+                        {
+                            event_id: 2,
+                            title: 'Yoga',
+                            color: 'blue',
+                            start: getCalendarEvent(6, 45),
+                            end: getCalendarEvent(8, 0)
+                        },
+                        {
+                            event_id: 3,
+                            title: 'Workout of the Day',
+                            color: 'purple',
+                            start: getCalendarEvent(6, 30),
+                            end: getCalendarEvent(7, 30)
+                        }
+                    ]}
+                />
             </Grid>
             <Grid item xs={12} md={7} lg={1}>
                 <Grid container alignItems="center" justifyContent="space-between">
